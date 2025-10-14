@@ -2,21 +2,31 @@
 //import dotenv from 'dotenv';
 //dotenv.config();
 // import {ENV} from "./env.config"; // Removed to avoid conflict
-export const ENV = {
-  MONGO_USER: process.env.MONGO_USER,
-  MONGO_PASS: process.env.MONGO_PASS,
-  MONGO_HOST: process.env.MONGO_HOST,
-  MONGO_DB: process.env.MONGO_DB,
-  MONGO_URI: process.env.MONGO_URI,
-};
+// export const ENV = {
+//   MONGO_USER: process.env.MONGO_USER,
+//   MONGO_PASS: process.env.MONGO_PASS,
+//   MONGO_HOST: process.env.MONGO_HOST,
+//   MONGO_DB: process.env.MONGO_DB,
+//   MONGO_URI: process.env.MONGO_URI,
+// };
 
-export const appConfig = {
-  mongoUri:
-    ENV.MONGO_URI ||
-    `mongodb+srv://${encodeURIComponent(ENV.MONGO_USER!)}:${encodeURIComponent(
-      ENV.MONGO_PASS!
-    )}@${ENV.MONGO_HOST}/${ENV.MONGO_DB}?retryWrites=true&w=majority&appName=${ENV.MONGO_DB}`,
-  // ... otras configuraciones
+// export const appConfig = {
+//   mongoUri:
+//     ENV.MONGO_URI ||
+//     `mongodb+srv://${encodeURIComponent(ENV.MONGO_USER!)}:${encodeURIComponent(
+//       ENV.MONGO_PASS!
+//     )}@${ENV.MONGO_HOST}/${ENV.MONGO_DB}?retryWrites=true&w=majority&appName=${ENV.MONGO_DB}`,
+//   // ... otras configuraciones
+// };
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+export const SERVER_PORT = process.env.SERVER_PORT || 3000;
+
+export const ENV = {
+  MONGO_URI: process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/ServineoBD',
+  DB_NAME: process.env.DB_NAME || 'ServineoBD',
 };
 
 //export const appConfig = {
