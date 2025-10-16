@@ -26,9 +26,9 @@ export const connectDatabase = async (): Promise<void> => {
 
 
 // Eventos de conexión
-mongoose.connection.on('disconnected', () => {
-  console.log('⚠️ MongoDB desconectado');
-});
+// mongoose.connection.on('disconnected', () => {
+//   console.log('⚠️ MongoDB desconectado');
+// });
 
 mongoose.connection.on('error', (err) => {
   console.error('💥 Error en MongoDB:', err);
