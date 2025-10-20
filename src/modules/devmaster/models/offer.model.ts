@@ -1,12 +1,22 @@
-import { Schema, model, models } from 'mongoose';
+import { Schema, model, models, Document, Model } from 'mongoose';
 
-const offerSchema = new Schema(
+export interface IOffer extends Document {
+  fixerName: string;
+  title: string;
+  description: string;
+  category: string;
+  tags?: string[];
+  price: number;
+  city: string;
+  contactPhone: string;
+  rating: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+const offerSchema = new Schema<IOffer>(
   {
-    fixerName: {
-      type: String,
-      required: true,
-      index: true,
-    },
+    fixerName: { type: String, required: true, index: true },
     title: { type: String, required: true },
     description: { type: String, required: true },
     category: {
@@ -55,17 +65,10 @@ const offerSchema = new Schema(
     contactPhone: { type: String, required: true },
     rating: { type: Number, required: true, min: 1, max: 5 },
   },
-  {
-    timestamps: true,
-    strict: false,
-  },
+  { timestamps: true, strict: false },
 );
 
-// Índices compuestos para mejorar rendimiento de filtros
 offerSchema.index({ city: 1, category: 1 });
 offerSchema.index({ fixerName: 1, city: 1 });
 
-// Evitar recompilación del modelo
-const OfferModel = models.Offer || model('Offer', offerSchema, 'offers');
-
-export const Offer = OfferModel;
+export const Offer: Model<IOffer> = models.Offer || model<IOffer>('Offer', offerSchema, 'offers');
