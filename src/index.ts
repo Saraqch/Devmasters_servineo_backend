@@ -1,21 +1,18 @@
 // src/index.ts
+// Cargar variables de entorno lo antes posible
+import 'dotenv/config';
+
 import Server from './config/server.config';
-import { SERVER_PORT } from './config/env.config';
 import { connectDatabase } from './config/db.config';
 
-async function startServer() {
+(async () => {
   try {
-    // 🔌 1️⃣ Conectamos a la base de datos antes de iniciar el servidor
     await connectDatabase();
-
-    // 🚀 2️⃣ Iniciamos el servidor Express
-    Server.listen(SERVER_PORT, () => {
-      console.info(`✅ Server running on http://localhost:${SERVER_PORT}`);
-    });
+    console.log('📡 Base de datos lista');
   } catch (error) {
-    console.error('❌ Error starting server:', error);
-    process.exit(1);
+    console.error('❌ Error al conectar DB en arranque:', error);
+    // No hacemos process.exit ni cierres forzados
   }
-}
+})();
 
-startServer();
+export default Server;

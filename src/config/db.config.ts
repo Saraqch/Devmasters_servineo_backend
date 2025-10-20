@@ -2,30 +2,33 @@
 import mongoose from 'mongoose';
 import { appConfig } from './app.config';
 
+let isConnected = false;
+
 export const connectDatabase = async (): Promise<void> => {
+  if (isConnected) {
+    console.log('⚡ MongoDB ya estaba conectado');
+    return;
+  }
+
   try {
-    const conn = await mongoose.connect(appConfig.mongoUri);
+    const conn = await mongoose.connect(appConfig.mongoUri, {
+      serverSelectionTimeoutMS: 5000,
+    });
+
+    isConnected = !!conn.connections[0].readyState;
     console.log(`✅ MongoDB conectado: ${conn.connection.host}`);
   } catch (error) {
     console.error('❌ Error conectando a MongoDB:', error);
-    process.exit(1);
+    throw error;
   }
 };
 
-// Eventos de conexión
-mongoose.connection.on('disconnected', () => {
-  console.log('⚠️ MongoDB desconectado');
-});
+if (process.env.NODE_ENV !== 'production') {
+  mongoose.connection.on('disconnected', () => {
+    console.log('⚠️ MongoDB desconectado');
+  });
 
-mongoose.connection.on('error', (err) => {
-  console.error('💥 Error en MongoDB:', err);
-});
-
-// Cerrar conexión cuando la app termina 
-process.on('SIGINT', async () => {
-  await mongoose.connection.close();
-  console.log('🔌 Conexión MongoDB cerrada por terminación de app');
-  process.exit(0);
-});
-
-//crear afuera un archivo llamado test-conn para verificacion de la conexion con la bd
+  mongoose.connection.on('error', (err) => {
+    console.error('💥 Error en MongoDB:', err);
+  });
+}
