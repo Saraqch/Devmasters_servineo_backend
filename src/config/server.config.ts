@@ -23,7 +23,7 @@ app.use(AppRoutes);
 
 // En desarrollo se puede mantener una ruta raíz para debug
 if (process.env.NODE_ENV !== 'production') {
-  app.get('/', (req, res) => res.send('Servidor Express (dev) listo'));
+  app.get('/', (_, res) => res.send('Servidor Express (dev) listo'));
 }
 
 export default app;
