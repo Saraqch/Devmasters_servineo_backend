@@ -2,42 +2,63 @@ import { Schema, model, models } from 'mongoose';
 
 const offerSchema = new Schema(
   {
-    fixerName: { 
-      type: String, 
+    fixerName: {
+      type: String,
       required: true,
-      index: true 
+      index: true,
     },
     title: { type: String, required: true },
     description: { type: String, required: true },
-    category: { 
-      type: String, 
+    category: {
+      type: String,
       required: true,
       enum: [
-        'Albañil', 'Carpintero', 'Fontanero', 'Electricista',
-        'Pintor', 'Soldador', 'Jardinero', 'Cerrajero',
-        'Mecánico', 'Vidriero', 'Yesero', 'Fumigador',
-        'Limpiador', 'Instalador', 'Montador', 'Decorador',
-        'Pulidor', 'Techador'
+        'Albañil',
+        'Carpintero',
+        'Fontanero',
+        'Electricista',
+        'Pintor',
+        'Soldador',
+        'Jardinero',
+        'Cerrajero',
+        'Mecánico',
+        'Vidriero',
+        'Yesero',
+        'Fumigador',
+        'Limpiador',
+        'Instalador',
+        'Montador',
+        'Decorador',
+        'Pulidor',
+        'Techador',
       ],
-      index: true
+      index: true,
     },
     tags: [{ type: String }],
     price: { type: Number, required: true },
-    city: { 
-      type: String, 
+    city: {
+      type: String,
       required: true,
       enum: [
-        'Beni', 'Chuquisaca', 'Cochabamba', 'La Paz',
-        'Oruro', 'Pando', 'Potosí', 'Santa Cruz', 'Tarija'
+        'Beni',
+        'Chuquisaca',
+        'Cochabamba',
+        'La Paz',
+        'Oruro',
+        'Pando',
+        'Potosí',
+        'Santa Cruz',
+        'Tarija',
       ],
-      index: true
+      index: true,
     },
     contactPhone: { type: String, required: true },
+    rating: { type: Number, required: true, min: 1, max: 5 },
   },
-  { 
+  {
     timestamps: true,
-    strict: false
-  }
+    strict: false,
+  },
 );
 
 // Índices compuestos para mejorar rendimiento de filtros
