@@ -54,11 +54,13 @@ function matchesAllTokens(
 }
 
 export const getAllOffers = async () => {
-  return await Offer.find().sort({ createdAt: -1 }).lean().exec();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return await (Offer.find() as any).sort({ createdAt: -1 }).lean().exec();
 };
 
 export const getOfferById = async (id: string) => {
-  return await Offer.findById(id).lean().exec();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return await (Offer.findById(id) as any).lean().exec();
 };
 
 export type OfferFilterOptions = {
@@ -72,7 +74,8 @@ export type OfferFilterOptions = {
 };
 
 export const getOffersFiltered = async (options?: OfferFilterOptions) => {
-  const allOffers = await Offer.find().lean().exec();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const allOffers = await (Offer.find() as any).lean().exec();
 
   if (allOffers.length === 0) {
     return { count: 0, data: [] };

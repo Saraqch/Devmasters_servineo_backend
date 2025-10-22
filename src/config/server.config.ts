@@ -4,10 +4,12 @@ import AppRoutes from './server.routes';
 
 const app = express();
 
-app.use(cors({ 
-  origin: "http://localhost:8080",  // ← Puerto de tu frontend
-  credentials: true 
-}));
+app.use(
+  cors({
+    origin: 'https://devmasters-servineo-frontend-zk3q.vercel.app', // ← Puerto de tu frontend
+    credentials: true,
+  }),
+);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

@@ -30,11 +30,17 @@ export function normalizeSearchText(text: string): string {
 
   // --- PASO CRUCIAL 1: QUITAR TILDES Y DIÉRESIS DE LA ENTRADA ---
   // Usamos reemplazos explícitos para asegurar que 'ó' se convierta en 'o', 'ü' en 'u', etc.
-  normalizedText = normalizedText.replace(/[ÅåáÁàÀâÂ]/g, 'a');
-  normalizedText = normalizedText.replace(/[éÉèÈêÊ]/g, 'e');
-  normalizedText = normalizedText.replace(/[íÍìÌîÎ]/g, 'i');
-  normalizedText = normalizedText.replace(/[óÓòÒôÔ]/g, 'o');
-  normalizedText = normalizedText.replace(/[úÚùÙûÛüÜ]/g, 'u');
+  /*normalizedText = normalizedText.replace(/[ÅåáÁàÀâÂ ÁáÀàÂâÄäÃãÅåĀāĂăǍǎȦȧ]/g, 'a');
+  normalizedText = normalizedText.replace(/[ëe̊éÉèÈêÊ ÉéÈèÊêËëĒēĔĕĚěĖė]/g, 'e');
+  normalizedText = normalizedText.replace(/[íÍìÌîÎ ÍíÌìÎîÏïĨĩĪīĬĭǏǐİi̇]/g, 'i');
+  normalizedText = normalizedText.replace(/[óÓòÒôÔ ÓóÒòÔôÖöÕõŌōŎŏǑǒȮȯ]/g, 'o');
+  normalizedText = normalizedText.replace(/[úÚùÙûÛüÜ ÚúÙùÛûÜüŨũŮůŪūŬŭǓǔU̇u̇]/g, 'u');*/
+
+  normalizedText = normalizedText.replace(/[ÁáÀàÂâÄäÃãÅåĀāĂăǍǎȦȧ]/g, 'a');
+  normalizedText = normalizedText.replace(/[ÉéÈèÊêËëĒēĔĕĚěĖė]/g, 'e');
+  normalizedText = normalizedText.replace(/[ÍíÌìÎîÏïĨĩĪīĬĭǏǐ]/g, 'i');
+  normalizedText = normalizedText.replace(/[ÓóÒòÔôÖöÕõŌōŎŏǑǒȮȯ]/g, 'o');
+  normalizedText = normalizedText.replace(/[ÚúÙùÛûÜüŨũŮůŪūŬŭǓǔU̇u̇]/g, 'u');
   // Si necesitas manejar la ñ, puedes añadir:
   // normalizedText = normalizedText.replace(/ñ/g, 'n');
 
