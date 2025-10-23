@@ -5,7 +5,9 @@ import {
   getOffersByFixerNameRange,
   getOffersByCity,
   getOffersByCategory,
-  getOffersFiltered 
+  getOffersFiltered, 
+  getAllOffersPaginated,
+  getOffersFilteredPaginated
 } from '../services/offer.service';
 import { isValidRange } from '../utils/nameRangeHelper';
 import { isValidCity, getAllCities } from '../utils/cityHelper';
@@ -16,20 +18,29 @@ import { isValidCategory, getAllCategories } from '../utils/categoryHelper';
  */
 export const getOffers = async (req: Request, res: Response) => {
   try {
-    const offers = await getAllOffers();
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 10;
+
+    const result = await getAllOffersPaginated(page, limit); // <-- aquí la versión paginada
+
     res.status(200).json({
       success: true,
-      count: offers.length,
-      data: offers
+      total: result.total,          // total de registros en la DB
+      count: result.offers.length,  // cantidad en esta página
+      page,
+      limit,
+      data: result.offers
     });
   } catch (error) {
-    res.status(500).json({ 
+    res.status(500).json({
       success: false,
-      message: 'Error al obtener las ofertas', 
-      error 
+      message: 'Error al obtener las ofertas',
+      error
     });
   }
 };
+
+
 
 /**
  * GET /api/devmaster/offers/:id
@@ -65,7 +76,8 @@ export const getOffer = async (req: Request, res: Response) => {
 export const filterOffersByFixerNameRange = async (req: Request, res: Response) => {
   try {
     const { range } = req.query;
-
+   const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 10;
     if (!range) {
       return res.status(400).json({
         success: false,
@@ -82,13 +94,16 @@ export const filterOffersByFixerNameRange = async (req: Request, res: Response) 
       });
     }
 
-    const offers = await getOffersByFixerNameRange(range as string);
-    
+     const result = await getOffersFilteredPaginated({ nameRange: range as string }, page, limit);
+
     res.json({
       success: true,
       range,
-      count: offers.length,
-      data: offers
+      total: result.total,
+      count: result.offers.length,
+      page,
+      limit,
+      data: result.offers
     });
   } catch (error) {
     res.status(500).json({
@@ -105,7 +120,8 @@ export const filterOffersByFixerNameRange = async (req: Request, res: Response) 
 export const filterOffersByCity = async (req: Request, res: Response) => {
   try {
     const { city } = req.query;
-
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 10;
     if (!city) {
       return res.status(400).json({
         success: false,
@@ -122,13 +138,16 @@ export const filterOffersByCity = async (req: Request, res: Response) => {
       });
     }
 
-    const offers = await getOffersByCity(city as string);
-    
+    const result = await getOffersFilteredPaginated({ city: city as string }, page, limit);
+
     res.json({
       success: true,
       city,
-      count: offers.length,
-      data: offers
+      total: result.total,
+      count: result.offers.length,
+      page,
+      limit,
+      data: result.offers
     });
   } catch (error) {
     res.status(500).json({
@@ -145,6 +164,8 @@ export const filterOffersByCity = async (req: Request, res: Response) => {
 export const filterOffersByCategory = async (req: Request, res: Response) => {
   try {
     const { category } = req.query;
+      const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 10;
 
     if (!category) {
       return res.status(400).json({
@@ -162,13 +183,16 @@ export const filterOffersByCategory = async (req: Request, res: Response) => {
       });
     }
 
-    const offers = await getOffersByCategory(category as string);
-    
+    const result = await getOffersFilteredPaginated({ category: category as string }, page, limit);
+
     res.json({
       success: true,
       category,
-      count: offers.length,
-      data: offers
+      total: result.total,
+      count: result.offers.length,
+      page,
+      limit,
+      data: result.offers
     });
   } catch (error) {
     res.status(500).json({
