@@ -94,3 +94,54 @@ export const getOffersFiltered = async (filters: {
     .lean()
     .exec();
 };
+
+export const getAllOffersPaginated = async (page: number = 1, limit: number = 10) => {
+  const skip = (page - 1) * limit;
+
+  const [offers, total] = await Promise.all([
+    Offer.find()
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .lean()
+      .exec(),
+    Offer.countDocuments()
+  ]);
+
+  return { offers, total };
+};
+
+export const getOffersFilteredPaginated = async (
+  filters: { nameRange?: string; city?: string; category?: string },
+  page: number = 1,
+  limit: number = 10
+) => {
+  const query: any = {};
+  
+  if (filters.nameRange) {
+    const regex = getRangeRegex(filters.nameRange);
+    if (regex) query.fixerName = regex;
+  }
+  
+  if (filters.city) {
+    query.city = validateAndNormalizeCity(filters.city);
+  }
+  
+  if (filters.category) {
+    query.category = validateAndNormalizeCategory(filters.category);
+  }
+
+  const skip = (page - 1) * limit;
+
+  const [offers, total] = await Promise.all([
+    Offer.find(query)
+      .sort({ fixerName: 1, createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .lean()
+      .exec(),
+    Offer.countDocuments(query)
+  ]);
+
+  return { offers, total };
+};
