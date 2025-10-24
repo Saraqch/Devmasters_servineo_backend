@@ -14,26 +14,45 @@ import { isValidRange } from '../utils/nameRangeHelper';
 import { isValidCity, getAllCities } from '../utils/cityHelper';
 import { isValidCategory, getAllCategories } from '../utils/categoryHelper';
 import { SortCriteria } from '../utils/queryParams.types';
+import { getAllOffersPaginated, getOffersFilteredPaginated } from '../services/offer.service';
 
 /**
  * GET /api/devmaster/offers
  * Soporta query params: range[], city, category[], search, sortBy
  */
+/**
+ * GET /api/devmaster/offers
+ * Soporta query params: range[], city, category[], search, sortBy, page, limit
+ */
 export const getOffers = async (req: Request, res: Response) => {
   try {
-    const { range, city, category, search, sortBy, limit, skip } = req.query;
+    console.log('🎯 ENDPOINT /offers ACCEDIDO!'); // ← LOG PARA DEBUG
+    console.log('📝 Query parameters:', req.query); // ← LOG PARA DEBUG
+    
+    const { range, city, category, search, sortBy, page, limit } = req.query;
 
-    // Si no hay parámetros, retorna todos
+    // Extraer paginación
+    const pageNumber = parseInt(page as string) || 1;
+    const limitNumber = parseInt(limit as string) || 10;
+    
+    console.log('🔢 Pagination:', { page: pageNumber, limit: limitNumber }); // ← LOG
+
+    // Si no hay parámetros de filtro, usa la paginación simple
     if (!range && !city && !category && !search && !sortBy) {
-      const offers = await getAllOffers();
+      console.log('📊 Usando getAllOffersPaginated...'); // ← LOG
+      const result = await getAllOffersPaginated(pageNumber, limitNumber);
+      
       return res.status(200).json({
         success: true,
-        count: offers.length,
-        data: offers,
+        total: result.total,
+        count: result.offers.length,
+        page: pageNumber,
+        limit: limitNumber,
+        data: result.offers,
       });
     }
 
-    // Preparar opciones para el servicio
+    // Preparar opciones para el servicio (con filtros)
     const options: OfferFilterOptions = {};
 
     // Manejar ranges (puede ser string o array)
@@ -72,24 +91,28 @@ export const getOffers = async (req: Request, res: Response) => {
       }
     }
 
-    // Manejar paginación
-    if (limit && !isNaN(Number(limit))) {
-      options.limit = Number(limit);
-    }
-    if (skip && !isNaN(Number(skip))) {
-      options.skip = Number(skip);
-    }
-
-    // Llamar al servicio unificado
-    const result = await getOffersFiltered(options);
+    // PARA FILTROS: Necesitas una función que combine filtros + paginación
+    console.log('🔍 Usando filtros con paginación...'); // ← LOG
+    const result = await getOffersFilteredPaginated(
+      { 
+        nameRange: options.ranges?.[0], 
+        city: options.city, 
+        category: options.categories?.[0] 
+      }, 
+      pageNumber, 
+      limitNumber
+    );
 
     res.status(200).json({
       success: true,
-      count: result.count,
-      total: result.count,
-      data: result.data,
+      total: result.total,
+      count: result.offers.length,
+      page: pageNumber,
+      limit: limitNumber,
+      data: result.offers,
     });
   } catch (error) {
+    console.log('❌ ERROR en getOffers:', error); // ← LOG DE ERROR
     res.status(500).json({
       success: false,
       message: 'Error al obtener las ofertas',

@@ -95,53 +95,72 @@ export const getOffersFiltered = async (filters: {
     .exec();
 };
 
-export const getAllOffersPaginated = async (page: number = 1, limit: number = 10) => {
+export const getAllOffersPaginated = async (page = 1, limit = 10) => {
   const skip = (page - 1) * limit;
+  console.log('🔍 DEBUG PAGINATION:', { page, limit, skip }); // ← Agrega esto
 
-  const [offers, total] = await Promise.all([
+ const [offers, total] = await Promise.all([
     Offer.find()
-      .sort({ createdAt: -1 })
-      .skip(skip)
-      .limit(limit)
+      .sort({ _id: -1 }) // 👈 ORDENAMIENTO ÚNICO Y CONSISTENTE
+      .skip(skip)         
+      .limit(limit)        
       .lean()
       .exec(),
     Offer.countDocuments()
   ]);
 
+  console.log('📊 DEBUG RESULTS - Service:', { 
+    requestedLimit: limit, 
+    actualResults: offers.length,
+    firstId: offers[0]?._id,
+    lastId: offers[offers.length-1]?._id,
+    allIds: offers.map(o => o._id) // 👈 LOG de todos los IDs
+  });
+
   return { offers, total };
 };
+
 
 export const getOffersFilteredPaginated = async (
   filters: { nameRange?: string; city?: string; category?: string },
   page: number = 1,
   limit: number = 10
 ) => {
-  const query: any = {};
-  
+  const match: any = {};
+
   if (filters.nameRange) {
     const regex = getRangeRegex(filters.nameRange);
-    if (regex) query.fixerName = regex;
+    if (regex) match.fixerName = regex;
   }
-  
+
   if (filters.city) {
-    query.city = validateAndNormalizeCity(filters.city);
+    match.city = validateAndNormalizeCity(filters.city);
   }
-  
+
   if (filters.category) {
-    query.category = validateAndNormalizeCategory(filters.category);
+    match.category = validateAndNormalizeCategory(filters.category);
   }
 
   const skip = (page - 1) * limit;
+  console.log('🔍 DEBUG FILTERED PAGINATION:', { 
+    filters, 
+    page, 
+    limit, 
+    skip 
+  });
 
-  const [offers, total] = await Promise.all([
-    Offer.find(query)
-      .sort({ fixerName: 1, createdAt: -1 })
-      .skip(skip)
-      .limit(limit)
-      .lean()
-      .exec(),
-    Offer.countDocuments(query)
+  // Usamos aggregate para asegurar paginación correcta
+   const offersPromise = Offer.aggregate([
+    { $match: match },
+    { $sort: { _id: -1 } }, // 👈 ORDENAMIENTO ÚNICO
+    { $skip: skip },
+    { $limit: limit },
   ]);
+
+  const countPromise = Offer.countDocuments(match);
+
+  const [offers, total] = await Promise.all([offersPromise, countPromise]);
 
   return { offers, total };
 };
+
