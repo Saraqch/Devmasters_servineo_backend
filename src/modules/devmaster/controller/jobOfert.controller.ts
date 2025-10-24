@@ -1,15 +1,5 @@
-// Tipo robusto para los filtros de búsqueda
-type OfferFilterOptions = {
-  ranges?: string[];
-  city?: string;
-  categories?: string[];
-  search?: string;
-  sortBy?: string;
-  limit?: number;
-  skip?: number;
-};
 import { Request, Response } from 'express';
-import { getAllOffers, getOffersFiltered } from '../services/jobOfert.service';
+import { getOffersFiltered, OfferFilterOptions } from '../services/jobOfert.service';
 import { isValidRange } from '../utils/nameRangeHelper';
 import { isValidCity, getAllCities } from '../utils/cityHelper';
 import { isValidCategory, getAllCategories } from '../utils/categoryHelper';
@@ -17,54 +7,26 @@ import { SortCriteria } from '../utils/queryParams.types';
 
 /**
  * GET /api/devmaster/offers
- * Soporta query params: range[], city, category[], search, sortBy
+ * Soporta query params: range[], city, category[], search, sortBy, page, limit
  */
 export const getOffers = async (req: Request, res: Response) => {
   try {
-    const { range, city, category, search, sortBy, limit, skip } = req.query;
-
-    // Si no hay parámetros, retorna todos
-    if (!range && !city && !category && !search && !sortBy) {
-      const offers = await getAllOffers();
-      return res.status(200).json({
-        success: true,
-        count: offers.length,
-        data: offers,
-      });
-    }
+    const { range, city, category, search, sortBy, page, limit } = req.query;
 
     // Preparar opciones para el servicio
     const options: OfferFilterOptions = {};
 
-    // Manejar ranges (puede ser string o array)
+    // --- FILTROS Y BÚSQUEDA ---
     if (range) {
-      if (Array.isArray(range)) {
-        options.ranges = range.map(String);
-      } else if (typeof range === 'string') {
-        options.ranges = [range];
-      }
+      options.ranges = Array.isArray(range) ? range.map(String) : [String(range)];
     }
-
-    // Manejar city (single)
-    if (city && typeof city === 'string') {
-      options.city = city;
-    }
-
-    // Manejar categories (puede ser string o array)
+    if (city && typeof city === 'string') options.city = city;
     if (category) {
-      if (Array.isArray(category)) {
-        options.categories = category.map(String);
-      } else if (typeof category === 'string') {
-        options.categories = [category];
-      }
+      options.categories = Array.isArray(category) ? category.map(String) : [String(category)];
     }
-
-    // Manejar search
     if (search && typeof search === 'string' && search.trim()) {
       options.search = search.trim();
     }
-
-    // Manejar sort
     if (sortBy && typeof sortBy === 'string') {
       const validSortValues = Object.values(SortCriteria) as string[];
       if (validSortValues.includes(sortBy.toLowerCase())) {
@@ -72,16 +34,17 @@ export const getOffers = async (req: Request, res: Response) => {
       }
     }
 
-    // Manejar paginación
-    if (limit && !isNaN(Number(limit))) {
-      options.limit = Number(limit);
-    }
-    if (skip && !isNaN(Number(skip))) {
-      options.skip = Number(skip);
+    // --- PAGINACIÓN ---
+    const pageNum = page && !isNaN(Number(page)) ? Number(page) : 1;
+    const limitNum = limit && !isNaN(Number(limit)) ? Number(limit) : undefined;
+
+    if (limitNum) {
+      options.limit = limitNum;
+      options.skip = (pageNum - 1) * limitNum;
     }
 
-    // Llamar al servicio unificado
-    const result = await getOffersFiltered(options);
+    // --- LLAMADA AL SERVICIO ---
+    const result = await getOffersFiltered(options as OfferFilterOptions);
 
     res.status(200).json({
       success: true,
@@ -200,21 +163,11 @@ export const filterOffers = async (req: Request, res: Response) => {
 
     const filters: OfferFilterOptions = {};
     if (range) {
-      if (Array.isArray(range)) {
-        filters.ranges = range.map(String);
-      } else if (typeof range === 'string') {
-        filters.ranges = [range];
-      }
+      filters.ranges = Array.isArray(range) ? range.map(String) : [String(range)];
     }
-    if (city && typeof city === 'string') {
-      filters.city = city;
-    }
+    if (city && typeof city === 'string') filters.city = city;
     if (category) {
-      if (Array.isArray(category)) {
-        filters.categories = category.map(String);
-      } else if (typeof category === 'string') {
-        filters.categories = [category];
-      }
+      filters.categories = Array.isArray(category) ? category.map(String) : [String(category)];
     }
 
     const result = await getOffersFiltered(filters);
