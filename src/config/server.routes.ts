@@ -6,6 +6,7 @@ const router = Router();
 
 router.use('/api', HealthRoutes);
 router.use('/api/devmaster', devmasterRoutes);
+router.use('/api', devmasterRoutes);
 
 router.use((req, res) => {
   console.log('Not found:', req.method, req.originalUrl);

@@ -3,6 +3,7 @@ import { Router } from 'express';
 //import jobRoutes from './routes/offer.routes'
 //import sortRoutes from './routes/sort.routes'
 import jobOfertRoutes from './routes/jobOfert.routes';
+import activitiesRoutes from '../../activities/activities.routes';
 
 const devmasterRoutes = Router();
 
@@ -10,5 +11,6 @@ const devmasterRoutes = Router();
 //devmasterRoutes.use('/offers', jobRoutes);
 //devmasterRoutes.use(sortRoutes);
 devmasterRoutes.use(jobOfertRoutes);
+devmasterRoutes.use(activitiesRoutes);
 
 export default devmasterRoutes;
