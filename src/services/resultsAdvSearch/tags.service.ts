@@ -1,5 +1,5 @@
 import { PipelineStage } from 'mongoose';
-import { Offer } from '../../models/offer.model';
+import { JobOffer } from '../../models/job-offer.model';
 
 type TagOpts = {
   search?: string;
@@ -63,7 +63,7 @@ export async function getTagsForOffers(search?: string, categories?: string[], l
     topLimit: limit,
   });
 
-  const agg = await Offer.aggregate(pipeline).exec();
+  const agg = await JobOffer.aggregate(pipeline).exec();
   // Si no se encontraron etiquetas para la búsqueda/categoría solicitada,
   // devolvemos el conjunto por defecto (últimas ofertas con tags) en lugar de []
   const hasFilter =
@@ -73,7 +73,7 @@ export async function getTagsForOffers(search?: string, categories?: string[], l
   if (hasFilter && Array.isArray(agg) && agg.length === 0) {
     // fallback: ejecutar la pipeline por defecto (sin search ni categories)
     const fallbackPipeline = buildTagsPipeline({ inspectLimit: limit, topLimit: limit } as any);
-    const fallbackAgg = await Offer.aggregate(fallbackPipeline).exec();
+    const fallbackAgg = await JobOffer.aggregate(fallbackPipeline).exec();
     return fallbackAgg.map((r: any) => (r && r.tag ? String(r.tag) : '')).filter(Boolean);
   }
 

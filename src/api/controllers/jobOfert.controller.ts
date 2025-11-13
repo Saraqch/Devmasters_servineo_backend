@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import { getAllOffers, getOffersFiltered, getPriceRanges } from '../../services/jobOfert.service';
 import { SortCriteria } from '../../types/sort.types';
-import { Offer } from '../../models/offer.model';
 import { getTagsForOffers } from '../../services/resultsAdvSearch/tags.service';
 
 import {
@@ -17,7 +16,6 @@ import {
   validatePageRange,
   normalizePageParam,
   calculatePaginationParams,
-  validatePaginationConsistency,
 } from '../../validators/pagination.validator';
 
 export const getOffers = async (req: Request, res: Response) => {

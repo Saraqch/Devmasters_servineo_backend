@@ -1,16 +1,12 @@
 // src/services/jobOfert/search-suggestions.service.ts
 import { SearchHistory } from '../../models/search-history.model';
-import { Offer } from '../../models/offer.model';
+import { JobOffer } from '../../models/job-offer.model';
 import { normalizeForHistory } from '../../utils/search.normalizer';
 
 function escapeRegex(text: string) {
   return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
-/**
- * Filtra sugerencias basadas en búsquedas populares de TODOS los usuarios
- * Solo muestra términos completos y profesionales (mínimo 3 caracteres)
- */
 export async function filterSuggestions(
   searchTerm: string,
   limit: number = 5,
@@ -120,8 +116,8 @@ export async function filterSuggestions(
     ];
 
     const [catResults, tagResults] = await Promise.all([
-      Offer.aggregate(categoryAgg),
-      Offer.aggregate(tagsAgg),
+      JobOffer.aggregate(categoryAgg),
+      JobOffer.aggregate(tagsAgg),
     ]);
 
     const catalogRaw = [...(catResults || []), ...(tagResults || [])];

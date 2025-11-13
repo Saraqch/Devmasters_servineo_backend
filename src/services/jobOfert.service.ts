@@ -1,5 +1,5 @@
 // services/jobOfert.service.ts
-import { Offer } from '../models/offer.model';
+import { JobOffer } from '../models/job-offer.model';
 import {
   searchOffers,
   searchOffersExactFields,
@@ -35,14 +35,14 @@ export type OfferFilterOptions = {
 };
 
 export const getAllOffers = async () => {
-  return await QueryExecutor.findAll(Offer);
+  return await QueryExecutor.findAll(JobOffer);
 };
 
 // MODIFICAR getOffersFiltered
 export const getOffersFiltered = async (options?: OfferFilterOptions) => {
   // Si no hay opciones, devolver el resultado sin filtros
   if (!options) {
-    return await QueryExecutor.execute(Offer, {}, null, 0, 10);
+    return await QueryExecutor.execute(JobOffer, {}, null, 0, 10);
   } // 1. LÓGICA DE DECISIÓN: Determinar si es Búsqueda Avanzada
 
   const isAdvancedSearch = options.tags || options.minPrice || options.maxPrice;
@@ -109,7 +109,7 @@ export const getOffersFiltered = async (options?: OfferFilterOptions) => {
   const sort = sortOffers(options?.sortBy);
   const { limit, skip } = PaginationCommon.getOptions(options?.limit, options?.skip); // 5. EJECUTAR LA CONSULTA FINAL
 
-  return await QueryExecutor.execute(Offer, finalQuery, sort, skip, limit);
+  return await QueryExecutor.execute(JobOffer, finalQuery, sort, skip, limit);
 };
 
 /**
@@ -120,7 +120,7 @@ export const getOffersFiltered = async (options?: OfferFilterOptions) => {
  */
 export const getPriceRanges = async (buckets = 4, includeExtremes = true) => {
   // Agregación para obtener min y max
-  const agg = await Offer.aggregate([
+  const agg = await JobOffer.aggregate([
     {
       $group: {
         _id: null,
@@ -132,8 +132,8 @@ export const getPriceRanges = async (buckets = 4, includeExtremes = true) => {
 
   if (!agg || agg.length === 0) return { min: null, max: null, ranges: [] };
 
-  let min = agg[0].min as number;
-  let max = agg[0].max as number;
+  const min = agg[0].min as number;
+  const max = agg[0].max as number;
 
   if (min == null || max == null) return { min: null, max: null, ranges: [] };
 
@@ -147,13 +147,6 @@ export const getPriceRanges = async (buckets = 4, includeExtremes = true) => {
     };
   }
 
-  // calcular step y límites (algoritmo más estable):
-  // 1) stepRaw = span / buckets
-  // 2) base = 10^floor(log10(stepRaw))
-  // 3) step = ceil(stepRaw / base) * base  (redondear hacia arriba al múltiplo de base)
-  // 4) lower = floor(min / step) * step  (redondear el límite inferior hacia abajo)
-  // 5) boundaries = [lower, lower+step, ..., lower + step * buckets]
-  // 6) ajustar último boundary para que >= max
   const span = max - min;
   const stepRaw = span / buckets;
 

@@ -18,7 +18,7 @@ export function filterOffers(options?: FilterOptions): any {
   if (options.ranges && options.ranges.length > 0) {
     const regexes = options.ranges.map((r) => getRangeRegex(r)).filter(Boolean);
     if (regexes.length > 0) {
-      filters.fixerName = { $in: regexes };
+      filters.name = { $in: regexes };
     }
   }
 

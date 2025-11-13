@@ -15,10 +15,10 @@ export function sortOffers(sortBy?: string | SortCriteria): any {
       sortConfig.createdAt = 1;
       break;
     case SortCriteria.NAME_ASC:
-      sortConfig.fixerName = 1;
+      sortConfig.name = 1;
       break;
     case SortCriteria.NAME_DESC:
-      sortConfig.fixerName = -1;
+      sortConfig.name = -1;
       break;
     case SortCriteria.RATING:
       sortConfig.rating = -1;

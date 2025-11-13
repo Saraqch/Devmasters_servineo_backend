@@ -2,7 +2,7 @@
 import { normalizeSearchText } from '../../utils/search.normalizer';
 import { SearchService } from '../common/search.common';
 
-const SEARCH_FIELDS = ['fixerName', 'title', 'description', 'category', 'city'];
+const SEARCH_FIELDS = ['name', 'title', 'description', 'category', 'city'];
 
 /**
  * Búsqueda básica (sin normalizador de acentos, etc.)
@@ -37,7 +37,7 @@ export function searchOffersTokens(searchText?: string): any {
 const WEIGHTED_FIELDS_CONFIG = [
   { field: 'title', weight: 10 }, // Título tiene mayor importancia
   { field: 'description', weight: 5 },
-  { field: 'fixerName', weight: 3 },
+  { field: 'name', weight: 3 },
   // ... otros campos
 ];
 

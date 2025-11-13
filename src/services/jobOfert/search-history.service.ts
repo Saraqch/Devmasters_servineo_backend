@@ -95,10 +95,6 @@ export async function getSearchHistory(
   }
 }
 
-/**
- * Filtra el historial basado en el término de búsqueda
- * Si no hay término, devuelve todo el historial activo
- */
 export async function filterSearchHistory(
   searchTerm: string,
   sessionId?: string,
