@@ -1,4 +1,4 @@
-import { Schema, model, models, Document, Types } from 'mongoose';
+import mongoose, { Schema, Document, Types } from 'mongoose';
 
 export interface IExperience {
   id: string;
@@ -23,31 +23,18 @@ export interface IUser extends Document {
   _id: Types.ObjectId;
   name: string;
   email: string;
-  passwordHash: string;
-  phone?: string;
-  role: 'requester' | 'fixer' | 'visitor';
-  language: 'es' | 'en';
+  phone: string;
+  role: 'requester' | 'fixer';
   fixerProfile?: IFixerProfile;
   createdAt: Date;
-  updatedAt: Date;
 }
 
-const userSchema = new Schema<IUser>(
+const UserSchema = new Schema<IUser>(
   {
-    name: { type: String, required: true, trim: true },
-    email: { type: String, required: true, unique: true, lowercase: true, trim: true },
-    passwordHash: { type: String, required: true },
-    phone: { type: String },
-    role: {
-      type: String,
-      enum: ['requester', 'fixer', 'visitor'],
-      default: 'requester',
-    },
-    language: {
-      type: String,
-      enum: ['es', 'en'],
-      default: 'es',
-    },
+    name: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    phone: { type: String, required: true },
+    role: { type: String, enum: ['requester', 'fixer'], default: 'requester' },
     fixerProfile: {
       ci: { type: String },
       location: {
@@ -73,4 +60,4 @@ const userSchema = new Schema<IUser>(
   { collection: 'users', timestamps: true }
 );
 
-export const User = models.User || model<IUser>('User', userSchema);
+export const UserModel = mongoose.model<IUser>('User', UserSchema);
