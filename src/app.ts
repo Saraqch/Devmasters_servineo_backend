@@ -1,7 +1,8 @@
+// src/app.ts
 import express from 'express';
 import cors from 'cors';
-import HealthRoutes from './api/routes/health.routes';
-import jobOfertRoutes from './api/routes/jobOfert.routes';
+import jobOfertRoutes from './api/modules/job-offers/routes/jobOfert.routes';
+import searchHistoryRoutes from './api/modules/search-history/routes/search-history.routes';
 
 const app = express();
 
@@ -20,8 +21,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
-app.use('/api', HealthRoutes);
 app.use('/api/devmaster', jobOfertRoutes);
+app.use('/api/devmaster', searchHistoryRoutes);
 
 // 404 handler
 app.use((req, res) => {
