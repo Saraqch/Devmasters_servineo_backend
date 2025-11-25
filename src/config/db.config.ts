@@ -8,7 +8,9 @@ export const connectDatabase = async (): Promise<void> => {
     console.log(`✅ MongoDB conectado: ${conn.connection.host}`);
   } catch (error) {
     console.error('❌ Error conectando a MongoDB:', error);
-    process.exit(1);
+    if (process.env.NODE_ENV !== "production") {
+      process.exit(1);
+    }
   }
 };
 
