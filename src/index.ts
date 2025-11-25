@@ -1,12 +1,12 @@
 import "dotenv/config";
-import Server from "./config/server.config";
+import app from "./app";
 import { SERVER_PORT } from "./config/env.config";
 
-export default Server; 
+export default app;
 
 async function startServer() {
   try {
-    Server.listen(SERVER_PORT, () => {
+    app.listen(SERVER_PORT, () => {
       console.info(`Server running on http://localhost:${SERVER_PORT}`);
     });
   } catch (error) {
