@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
 import Stripe from "stripe";
 import { Card } from "../../models/card.model";
-import { User } from "../../models/userPayment.model";
+import { UserPayment as User } from "../../models/userPayment.model";
 import 'dotenv/config';
 
 // Validar que la clave de Stripe existe

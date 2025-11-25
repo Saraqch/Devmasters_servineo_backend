@@ -3,7 +3,7 @@
 import { Request, Response } from 'express';
 import { BankAccount } from '../../models/bankAccount.model';
 // 🟢 CORRECCIÓN 1: Importar el modelo User para actualizar el estado
-import { User } from '../../models/userPayment.model';
+import { UserPayment as User } from '../../models/userPayment.model';
 
 
 /**

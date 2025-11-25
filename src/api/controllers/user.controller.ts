@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import { User } from "../../models/userPayment.model";
+import { UserPayment as User } from "../../models/userPayment.model";
 
 
 // Listar todos los usuarios

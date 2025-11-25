@@ -4,7 +4,7 @@ import { Payment } from "../../models/payment.model";
 import { Comision } from "../../models/historycomission.model";
 import { Wallet } from "../../models/wallet.model";
 import { Job } from "../../models/jobsPayment.model";
-import { User } from "../../models/userPayment.model"; 
+import { UserPayment as User } from "../../models/userPayment.model"; 
 
 const MAX_ATTEMPTS = 3;
 const LOCK_MINUTES = 10;

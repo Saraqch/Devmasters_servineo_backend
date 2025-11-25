@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import mongoose from "mongoose";
 import { Payment } from "../../models/payment.model";
-import { User } from "../../models/userPayment.model";
+import { UserPayment as User } from "../../models/userPayment.model";
 
 
 const CODE_EXPIRATION_MS = 1 * 60 * 60 * 1000;
