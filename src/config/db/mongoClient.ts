@@ -1,6 +1,6 @@
+/*
 import { MongoClient, Db } from "mongodb";
 import dotenv from "dotenv";
-
 dotenv.config();
 
 function getEnvVar(name: string): string {
@@ -41,3 +41,4 @@ export async function closeDB(): Promise<void> {
     db = null;
   }
 }
+*/
