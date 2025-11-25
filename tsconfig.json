@@ -1,6 +1,8 @@
+
 {
   "compilerOptions": {
     "target": "ES6",
+    "module": "commonjs",           // ← Cambiar esto
     "rootDir": "./src",
     "moduleResolution": "node",
     "resolveJsonModule": true,
@@ -9,6 +11,6 @@
     "strict": true,
     "skipLibCheck": true
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts", "src/env.config.ts", "src/config/server.config.ts", "src/config/app.ts/app.ts", "src/index.ts", "src/models/health/health.controller.ts", "src/models/health/health.routes.ts", "src/models/featureFlags.model.ts", "src/config/database.config.ts", "src/config/db.config.ts", "src/models/bankAccount.model.ts", "src/models/card.model.ts", "src/models/fixer.ts", "src/models/historycomission.model.ts", "src/models/Invoice.model.ts", "src/models/jobPayment.model.ts", "src/models/jobsPayment.model.ts", "src/models/payment.model.ts", "src/models/PaymentIntent.model.ts", "src/models/ProviderPaymentMethod.model.ts", "src/models/userPayment.model.ts", "src/models/usersPayment.model.ts", "src/models/wallet.model.ts", "src/models/walletRecharge.model.ts"],
   "exclude": ["node_modules", "**/*.spec.ts"]
 }

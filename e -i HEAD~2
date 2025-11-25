@@ -1,0 +1,101 @@
+[33mcommit aa2ec1dc04f3bd4649608484744d809edc4721fe[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeature/registro[m[33m)[m
+Author: Diego Revollo <revollofernando001@gmail.com>
+Date:   Wed Oct 15 17:09:04 2025 -0400
+
+    Fix the error to the port 3000
+
+[33mcommit fea4335f166d1d32e97b4c40f802c3082da7e67f[m
+Author: Diego Revollo <revollofernando001@gmail.com>
+Date:   Wed Oct 15 02:54:50 2025 -0400
+
+    Backend Funcionando
+
+[33mcommit b095e43e3487fc03624c2205a549e062c0960808[m
+Author: Diego Revollo <revollofernando001@gmail.com>
+Date:   Wed Oct 15 02:54:50 2025 -0400
+
+    Backend Funcionando
+
+[33mcommit e574057e2f4e5aaa38c03317e43e891fbd987683[m
+Author: Paredes <202301667@est.umss.edu>
+Date:   Tue Oct 14 18:15:51 2025 -0400
+
+    commit: backend usando typeScryt
+
+[33mcommit 94b3337bced3b057b62ea0ce22aa5165f183a38b[m
+Author: Paredes <202301667@est.umss.edu>
+Date:   Tue Oct 14 18:15:51 2025 -0400
+
+    commit: backend usando typeScryt
+
+[33mcommit 1d63409d5cae70126f995b23d01948ac36093bf9[m
+Author: Paredes <202301667@est.umss.edu>
+Date:   Tue Oct 14 18:15:51 2025 -0400
+
+    commit: backend usando typeScryt
+
+[33mcommit a19d45a3bfa3f13c0e405d2c7bd8b33cb3948cc0[m
+Author: Paredes <202301667@est.umss.edu>
+Date:   Tue Oct 14 18:15:51 2025 -0400
+
+    commit: backend usando typeScryt
+
+[33mcommit 528cb1b10e1e9a998f5536fe4540ad56a424c313[m
+Author: Jhaseft <jhasesaat@gmail.com>
+Date:   Mon Oct 13 19:28:41 2025 -0400
+
+    add
+
+[33mcommit 375461fd91791efde00c941745d8d423e86140dd[m
+Author: Jhaseft <jhasesaat@gmail.com>
+Date:   Mon Oct 13 19:28:41 2025 -0400
+
+    add
+
+[33mcommit 3ab3a73954e3749978a5a7270b1958754dd9251a[m
+Author: Jhaseft <jhasesaat@gmail.com>
+Date:   Mon Oct 13 19:28:41 2025 -0400
+
+    add
+
+[33mcommit 26e481dcfdafd91ea350d30e9c119e63af9f1a81[m
+Author: Jhaseft <jhasesaat@gmail.com>
+Date:   Mon Oct 13 19:27:09 2025 -0400
+
+    add: backend card controller
+
+[33mcommit dad96777cb975b69e6b3dd4a3e7384dd506b0a65[m
+Author: Alvaro-CoreBits <evangelion0156@gmail.com>
+Date:   Wed Oct 15 00:58:37 2025 -0400
+
+    primero use cors pero proxy >>
+
+[33mcommit b22bef168ef31414780f7bb232b054415f94f810[m
+Author: Alvaro-CoreBits <evangelion0156@gmail.com>
+Date:   Tue Oct 14 01:28:14 2025 -0400
+
+    typescript>>javascript
+
+[33mcommit d403c2a451eacd0e86e352320a1a84184fa09314[m
+Author: Alvaro-CoreBits <evangelion0156@gmail.com>
+Date:   Sun Oct 12 12:23:16 2025 -0400
+
+    feat(lab): endpoints /lab (create, summaries, confirm) y montaje en server.routes
+
+[33mcommit 0012ba0334d7971ba00379567494fcb756953161[m
+Author: Diego Revollo <revollofernando001@gmail.com>
+Date:   Sat Oct 11 23:03:24 2025 -0400
+
+    Add the conection to the Servineo's DataBase
+
+[33mcommit 5377e2d2cbc28a797b363afc50386bb3e84690a4[m
+Author: Diego Revollo <revollofernando001@gmail.com>
+Date:   Tue Oct 7 17:24:07 2025 -0400
+
+    Add the base file structure to Innosis backend
+
+[33mcommit 5eedcfdf3069ff227019be77dca6c13b6e90d170[m
+Author: Ricardo Ramirez <ricardoramirezcaero123@gmail.com>
+Date:   Wed Oct 1 19:40:51 2025 -0400
+
+    init: initial commit
