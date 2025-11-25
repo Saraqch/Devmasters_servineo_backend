@@ -26,7 +26,7 @@ const app = express();
 
 
 const allowedOrigins = [
-  'https://devmasters-servineo-frontend-zk3q.vercel.app',
+  'https://https://devmasters-servineo-frontend-zk3q-casnas84k.vercel.app/',
   'http://localhost:3000',
   'http://localhost:8080',
   'http://localhost:8081',
