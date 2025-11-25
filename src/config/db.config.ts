@@ -21,7 +21,7 @@ mongoose.connection.on('error', (err) => {
   console.error('💥 Error en MongoDB:', err);
 });
 
-// Cerrar conexión cuando la app termina 
+// Cerrar conexión cuando la app termina
 process.on('SIGINT', async () => {
   await mongoose.connection.close();
   console.log('🔌 Conexión MongoDB cerrada por terminación de app');

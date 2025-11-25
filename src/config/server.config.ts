@@ -1,19 +1,12 @@
-import express from 'express';
-import cors from 'cors';
-import AppRoutes from './server.routes';
+import express from "express";
+import cors from "cors";
+import serviciosRoutes from "../routes/servicios.routes";
 
 const app = express();
 
-app.use(
-  cors({
-    origin: ['https://devmasters-servineo-frontend-zk3q.vercel.app', 'http://localhost:8080'],
-    credentials: true,
-  }),
-);
-
+app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
-app.use(AppRoutes);
+app.use("/api/newoffers", serviciosRoutes);
 
 export default app;
