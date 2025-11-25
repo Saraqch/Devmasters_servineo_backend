@@ -52,6 +52,11 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// 🏥 Health check en raíz
+app.get('/', (req, res) => {
+  res.status(200).json({ message: 'Servineo Backend is running ✅' });
+});
+
 app.use('/api', HealthRoutes);
 app.use('/api/devmaster', jobOfertRoutes);
 app.use('/api/newOffers', newoffersRoutes);
