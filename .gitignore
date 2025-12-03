@@ -1,9 +1,13 @@
-# compiled output
-/dist
-/node_modules
+# Node output
+dist/
+node_modules/
+
+# Lock file (normalmente se debe subir)
+# Eliminar esta línea si quieres subir package-lock.json
+# package-lock.json
 
 # Logs
-logs
+logs/
 *.log
 npm-debug.log*
 pnpm-debug.log*
@@ -11,15 +15,27 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
-# OS
+# Lock files
+package-lock.json
+
+# Environment
+.env*
+!.env.example
+
+# DB local by docker
+database/*
+database-pg/*
+
+# OS files
 .DS_Store
+Thumbs.db
 
 # Tests
-/coverage
-/.nyc_output
+coverage/
+.nyc_output/
 
 # IDEs and editors
-/.idea
+.idea/
 .project
 .classpath
 .c9/
@@ -27,17 +43,20 @@ lerna-debug.log*
 .settings/
 *.sublime-workspace
 
-# IDE - VSCode
+# VSCode
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
 
-# DB - local by docker
-database/*
-database-pg/*
+# Temporary / weird files
+*~
+*.tmp
 
-# environment
-.env*
-!.env.example
+# Vercel local build cache
+.vercel/
+.vercel
+
+serviceAccountKey.json
+firebase-service-account.json
