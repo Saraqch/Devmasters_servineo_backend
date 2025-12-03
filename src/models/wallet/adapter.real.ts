@@ -1,4 +1,4 @@
-import 'dotenv/config';
+/*import 'dotenv/config';
 import { makeRawCollectionWalletAdapter } from './adapter';
 import { makeWalletCollectionByUserIdAdapter } from './adapter.collection';
 
@@ -17,3 +17,4 @@ export function resolveWalletAdapter() {
 }
 
 export const walletAdapterReal = resolveWalletAdapter();
+*/
